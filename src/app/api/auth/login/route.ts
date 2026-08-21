@@ -13,14 +13,14 @@ export async function POST(req: Request) {
     let user = storage.users.find((u) => u.email.toLowerCase() === cleanEmail);
 
     if (!user) {
-      // Default to sales executive if new
-      const role = cleanEmail.includes('admin') || cleanEmail.includes('vedant') ? 'admin' : 'sales_executive';
+      const role = cleanEmail.includes('admin') || cleanEmail.includes('vedant') || cleanEmail.includes('finance') || cleanEmail.includes('operations') ? 'admin' : 'sales_executive';
       const name = email.split('@')[0].replace(/[._]/g, ' ').replace(/\b\w/g, (c: string) => c.toUpperCase());
 
       user = {
         id: `u-${Date.now()}`,
         name: name,
         email: cleanEmail,
+        password: password || 'Aarambh@2026',
         role: role,
         telegramUsername: email.split('@')[0],
         isActive: true,
@@ -39,19 +39,23 @@ export async function POST(req: Request) {
       },
     });
 
-    // Set cookie for session
-    response.cookies.set('crm_session', JSON.stringify({
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      role: user.role,
-      telegramUsername: user.telegramUsername,
-    }), {
-      path: '/',
-      httpOnly: false,
-      maxAge: 86400 * 30, // 30 days
-      sameSite: 'lax',
-    });
+    // Set session cookie
+    response.cookies.set(
+      'crm_session',
+      JSON.stringify({
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        telegramUsername: user.telegramUsername,
+      }),
+      {
+        path: '/',
+        httpOnly: false,
+        maxAge: 86400 * 30, // 30 days
+        sameSite: 'lax',
+      }
+    );
 
     return response;
   } catch (err: unknown) {
@@ -76,6 +80,6 @@ export async function GET(req: Request) {
 
   // Default fallback user (Vedant Singh / Admin)
   return NextResponse.json({
-    user: storage.users[1] || storage.users[0],
+    user: storage.users[0],
   });
 }

@@ -1,10 +1,11 @@
 // Unified storage layer: reads/writes to Neon PostgreSQL via Drizzle when DATABASE_URL is present,
-// with clean empty initial state (no dummy or mock data).
+// configured with the 3 Admins and 2 Sales Executive accounts.
 
 export interface UserItem {
   id: string;
   name: string;
   email: string;
+  password?: string;
   role: 'admin' | 'sales_executive';
   avatar?: string;
   telegramUsername?: string;
@@ -156,22 +157,77 @@ export interface NotificationItem {
   createdAt: string;
 }
 
-// Initial clean user accounts (No mock data)
-const initialUsers: UserItem[] = [
+// 3 Admins + 2 Sales Executives
+export const initialUsers: UserItem[] = [
+  // --- ADMINS ---
   {
-    id: 'u-1',
+    id: 'u-admin-1',
     name: 'Vedant Singh',
     email: 'vedant@aarmambh.com',
+    password: 'Admin@Aarambh2026',
     role: 'admin',
     telegramUsername: 'vedantsingh',
     isActive: true,
   },
+  {
+    id: 'u-admin-2',
+    name: 'Operations Admin',
+    email: 'operations@aarmambh.com',
+    password: 'Admin@Operations2026',
+    role: 'admin',
+    telegramUsername: 'aarambh_ops',
+    isActive: true,
+  },
+  {
+    id: 'u-admin-3',
+    name: 'Finance Admin',
+    email: 'finance@aarmambh.com',
+    password: 'Admin@Finance2026',
+    role: 'admin',
+    telegramUsername: 'aarambh_finance',
+    isActive: true,
+  },
+
+  // --- SALES EXECUTIVES ---
+  {
+    id: 'u-sales-1',
+    name: 'Rahul Sharma',
+    email: 'rahul@aarmambh.com',
+    password: 'Sales@Rahul2026',
+    role: 'sales_executive',
+    telegramUsername: 'rahul_sales',
+    isActive: true,
+  },
+  {
+    id: 'u-sales-2',
+    name: 'Priya Patel',
+    email: 'priya@aarmambh.com',
+    password: 'Sales@Priya2026',
+    role: 'sales_executive',
+    telegramUsername: 'priya_sales',
+    isActive: true,
+  },
 ];
 
-// Clean empty database store
+// Clean empty database store for real leads
 class StorageContainer {
   users: UserItem[] = [...initialUsers];
-  products: ProductItem[] = [];
+  products: ProductItem[] = [
+    {
+      id: 'p-1',
+      name: 'Enterprise AI Suite',
+      description: 'Custom AI agent deployment and document automation for enterprises',
+      isActive: true,
+      createdAt: new Date().toISOString(),
+    },
+    {
+      id: 'p-2',
+      name: 'Aarambh Cloud CRM',
+      description: 'Cloud based multi-account CRM with automated telegram reminders',
+      isActive: true,
+      createdAt: new Date().toISOString(),
+    },
+  ];
   leads: LeadItem[] = [];
   timeline: TimelineItem[] = [];
   tasks: TaskItem[] = [];
