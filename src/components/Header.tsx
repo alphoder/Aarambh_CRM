@@ -34,33 +34,8 @@ export function Header() {
       })
       .catch(() => {});
 
-    // Mock initial notifications
-    setNotifications([
-      {
-        id: '1',
-        title: 'New Lead Assigned',
-        message: 'Amitabh Verma (Apex Tech Solutions) was assigned to you.',
-        type: 'lead',
-        isRead: false,
-        createdAt: '5m ago',
-      },
-      {
-        id: '2',
-        title: 'Task Assigned',
-        message: '@admin assigned you: "Share updated commercial proposal with Amitabh Verma"',
-        type: 'task',
-        isRead: false,
-        createdAt: '25m ago',
-      },
-      {
-        id: '3',
-        title: 'Call Reminder in 10 Min',
-        message: 'Call scheduled with Sunita Rao (Zenith Logistics) at 11:30 AM',
-        type: 'lead',
-        isRead: true,
-        createdAt: '2h ago',
-      },
-    ]);
+    // Initialize clean notifications
+    setNotifications([]);
   }, []);
 
   const unreadCount = notifications.filter((n) => !n.isRead).length;

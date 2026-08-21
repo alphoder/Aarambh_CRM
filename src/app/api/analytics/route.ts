@@ -8,13 +8,33 @@ export async function GET() {
   const conversionRate = totalLeads > 0 ? Math.round((wonLeads / totalLeads) * 100) : 0;
   const totalPipelineValue = storage.leads.reduce((s, l) => s + l.value, 0);
 
-  // 1. Lead Funnel
+  // 1. Lead Funnel (Exact live counts)
   const funnelStages = [
-    { stage: 'New Leads', count: storage.leads.filter((l) => l.status === 'new').length + 8, value: 450000 },
-    { stage: 'Contacted', count: storage.leads.filter((l) => l.status === 'contacted').length + 6, value: 380000 },
-    { stage: 'Qualified', count: storage.leads.filter((l) => l.status === 'qualified').length + 4, value: 290000 },
-    { stage: 'Proposal Sent', count: storage.leads.filter((l) => l.status === 'proposal').length + 2, value: 250000 },
-    { stage: 'Deals Won', count: wonLeads, value: 500000 },
+    {
+      stage: 'New Leads',
+      count: storage.leads.filter((l) => l.status === 'new').length,
+      value: storage.leads.filter((l) => l.status === 'new').reduce((s, l) => s + l.value, 0),
+    },
+    {
+      stage: 'Contacted',
+      count: storage.leads.filter((l) => l.status === 'contacted').length,
+      value: storage.leads.filter((l) => l.status === 'contacted').reduce((s, l) => s + l.value, 0),
+    },
+    {
+      stage: 'Qualified',
+      count: storage.leads.filter((l) => l.status === 'qualified').length,
+      value: storage.leads.filter((l) => l.status === 'qualified').reduce((s, l) => s + l.value, 0),
+    },
+    {
+      stage: 'Proposal Sent',
+      count: storage.leads.filter((l) => l.status === 'proposal').length,
+      value: storage.leads.filter((l) => l.status === 'proposal').reduce((s, l) => s + l.value, 0),
+    },
+    {
+      stage: 'Deals Won',
+      count: wonLeads,
+      value: storage.leads.filter((l) => l.status === 'won').reduce((s, l) => s + l.value, 0),
+    },
   ];
 
   // 2. Sources Distribution

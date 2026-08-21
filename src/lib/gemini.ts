@@ -159,48 +159,9 @@ function fallbackDocumentParser(
     }
   }
 
-  if (leads.length === 0) {
-    // Generate intelligent parsed records from text chunks
-    leads.push(
-      {
-        name: 'Rajesh Singhania',
-        email: 'rajesh@singhania-group.in',
-        phone: '+91 98200 44556',
-        company: 'Singhania Industrial Corp',
-        designation: 'Managing Director',
-        city: 'Mumbai',
-        state: 'Maharashtra',
-        notes: `Imported from ${fileName} — Inquired about ${productContext}`,
-        estimatedValue: 350000,
-      },
-      {
-        name: 'Ananya Roy',
-        email: 'ananya@roylabs.tech',
-        phone: '+91 99300 88776',
-        company: 'Roy Technologies',
-        designation: 'VP Engineering',
-        city: 'Bengaluru',
-        state: 'Karnataka',
-        notes: `Extracted from ${fileName} for product ${productContext}`,
-        estimatedValue: 180000,
-      },
-      {
-        name: 'Deepak Chawla',
-        email: 'deepak.c@chawlaconsulting.com',
-        phone: '+91 98101 22334',
-        company: 'Chawla & Associates',
-        designation: 'Senior Partner',
-        city: 'New Delhi',
-        state: 'Delhi',
-        notes: `Extracted from ${fileName}`,
-        estimatedValue: 120000,
-      }
-    );
-  }
-
   return {
     success: true,
     leads,
-    modelUsed: 'gemini-2.0-flash-lite (Simulated Extraction Engine)',
+    modelUsed: 'heuristic-regex-parser',
   };
 }
